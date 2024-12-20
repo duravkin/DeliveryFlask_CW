@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
-from app import app, db
-from models import Accountant, Driver, Route, Supplier, Client, Order, Product, Suborder, OrderReport
+# from app import db
+from run import app
+from models import db, Accountant, Driver, Route, Supplier, Client, Order, Product, Suborder, OrderReport
 
 
 def populate_database():
