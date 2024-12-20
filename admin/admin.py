@@ -9,7 +9,7 @@ class RouteModelView(ModelView):
     column_list = ['id', 'departure_point', 'destination_point',
                    'datetime', 'distance', 'cost', 'driver.full_name']
     column_labels = {'id': 'Номер', 'departure_point': 'Откуда', 'destination_point': 'Куда',
-                     'datetime': 'Время', 'distance': 'Расстояние', 'cost': 'Стоимость', 'driver.full_name': 'Водитель'}
+                     'datetime': 'Время', 'distance': 'Расстояние', 'cost': 'Стоимость', 'driver_id': 'Номер водителя', 'driver.full_name': 'Водитель'}
     column_searchable_list = ['id', 'departure_point', 'destination_point']
     column_filters = ['datetime', 'distance', 'cost']
 
@@ -20,7 +20,7 @@ class ProductModelView(ModelView):
     column_list = ['product_name', 'category', 'price_per_unit',
                    'stock_quantity', 'supplier.company_name']
     column_labels = {'product_name': 'Название', 'category': 'Категория',
-                     'price_per_unit': 'Цена', 'stock_quantity': 'Количество',
+                     'price_per_unit': 'Цена', 'stock_quantity': 'Количество', 'supplier_id': 'Номер поставщика',
                      'supplier.company_name': 'Поставщик'}
     column_searchable_list = ['product_name']
     column_filters = ['price_per_unit', 'stock_quantity', 'category']
@@ -30,7 +30,7 @@ class OrderReportModelView(ModelView):
     form_columns = ['order_id', 'accountant_id']
     column_list = ['order_id', 'accountant.full_name',
                    'revenue', 'expenses', 'profit']
-    column_labels = {'order_id': 'Заказ', 'accountant.full_name': 'Бухгалтер',
+    column_labels = {'order_id': 'Номер заказа', 'accountant_id': 'Номер бухгалтера', 'accountant.full_name': 'Бухгалтер',
                      'revenue': 'Выручка', 'expenses': 'Расходы', 'profit': 'Прибыль'}
     column_searchable_list = ['order_id']
 
@@ -46,7 +46,7 @@ class OrderModelView(ModelView):
     column_list = ['id', 'order_date', 'route.departure_point', 'route.destination_point',
                    'client.client_name', 'status']
     column_labels = {'id': 'Номер', 'order_date': 'Дата заказа', 'route.departure_point': 'Откуда', 'route.destination_point': 'Куда',
-                     'client.client_name': 'Клиент', 'status': 'Статус'}
+                     'client.client_name': 'Клиент', 'status': 'Статус', 'route_id': 'Номер маршрута', 'client_id': 'Номер клиента'}
     column_searchable_list = ['id']
     column_filters = ['order_date', 'status']
 
@@ -54,7 +54,7 @@ class OrderModelView(ModelView):
 class SuborderModelView(ModelView):
     form_columns = ['order_id', 'product_id', 'quantity']
     column_list = ['order_id', 'product.product_name', 'quantity']
-    column_labels = {'order_id': 'Номер заказа',
+    column_labels = {'order_id': 'Номер заказа', 'product_id': 'Номер продукта',
                      'product.product_name': 'Продукт', 'quantity': 'Количество'}
     column_searchable_list = ['order_id']
 
