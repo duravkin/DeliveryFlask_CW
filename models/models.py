@@ -116,6 +116,13 @@ class OrderReport(db.Model):
         'orders.id'), nullable=False)
     accountant_id = db.Column(db.Integer, db.ForeignKey(
         'accountants.id'), nullable=False)
-    revenue = db.Column(db.Float, nullable=False)
-    expenses = db.Column(db.Float, nullable=False)
-    profit = db.Column(db.Float, nullable=False)
+    revenue = db.Column(db.Float, nullable=True, default=0.0)
+    expenses = db.Column(db.Float, nullable=True, default=0.0)
+    profit = db.Column(db.Float, nullable=True, default=0.0)
+
+    def calculate_profit(self):
+        self.revenue = sum(
+            suborder.quantity * suborder.product.price_per_unit for suborder in self.order.suborders)
+        self.expenses = self.order.route.cost
+
+        self.profit = self.revenue - self.expenses

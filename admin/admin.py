@@ -1,5 +1,4 @@
 from flask_admin.contrib.sqla import ModelView
-# from wtforms import SelectField
 from models import *
 AViews = list()
 
@@ -28,13 +27,18 @@ class ProductModelView(ModelView):
 
 
 class OrderReportModelView(ModelView):
-    form_columns = ['order_id', 'accountant_id',
-                    'revenue', 'expenses', 'profit']
+    form_columns = ['order_id', 'accountant_id']
     column_list = ['order_id', 'accountant.full_name',
                    'revenue', 'expenses', 'profit']
     column_labels = {'order_id': 'Заказ', 'accountant.full_name': 'Бухгалтер',
                      'revenue': 'Выручка', 'expenses': 'Расходы', 'profit': 'Прибыль'}
     column_searchable_list = ['order_id']
+
+    # Этот метод вызывается перед сохранением модели в базу данных.
+    def on_model_change(self, form, model, is_created):
+        if is_created or form.order_id.data:
+            model.calculate_profit()
+        super().on_model_change(form, model, is_created)
 
 
 class OrderModelView(ModelView):
@@ -90,7 +94,7 @@ AViews.append(SupplierModelView(Supplier, db.session, name='Поставщики
 AViews.append(AccountantModelView(Accountant, db.session, name='Бухгалтеры'))
 AViews.append(DriverModelView(Driver, db.session, name='Водители'))
 AViews.append(RouteModelView(Route, db.session, name='Маршруты'))
-AViews.append(ProductModelView(Product, db.session, name='Продукты'))
+AViews.append(ProductModelView(Product, db.session, name='Товары'))
 AViews.append(OrderReportModelView(OrderReport, db.session, name='Отчеты'))
 AViews.append(SuborderModelView(Suborder, db.session, name='Подзаказы'))
 AViews.append(OrderModelView(Order, db.session, name='Заказы'))
