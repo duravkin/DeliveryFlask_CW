@@ -1,4 +1,6 @@
 from flask_admin.contrib.sqla import ModelView
+from flask import url_for
+from markupsafe import Markup
 from models import *
 AViews = list()
 
@@ -29,9 +31,9 @@ class ProductModelView(ModelView):
 class OrderReportModelView(ModelView):
     form_columns = ['order_id', 'accountant_id']
     column_list = ['order_id', 'accountant.full_name',
-                   'revenue', 'expenses', 'profit']
+                   'revenue', 'expenses', 'profit', 'generate_report']
     column_labels = {'order_id': 'Номер заказа', 'accountant_id': 'Номер бухгалтера', 'accountant.full_name': 'Бухгалтер',
-                     'revenue': 'Выручка', 'expenses': 'Расходы', 'profit': 'Прибыль'}
+                     'revenue': 'Выручка', 'expenses': 'Расходы', 'profit': 'Прибыль', 'generate_report': 'Создать отчёт'}
     column_searchable_list = ['order_id']
 
     # Этот метод вызывается перед сохранением модели в базу данных.
@@ -39,6 +41,16 @@ class OrderReportModelView(ModelView):
         if is_created or form.order_id.data:
             model.calculate_profit()
         super().on_model_change(form, model, is_created)
+
+    def _generate_report_button(view, context, model, name):
+        """
+        Генерирует HTML-кнопку для создания отчёта.
+        """
+        return Markup(f'''<a class="btn btn-sm btn-primary" href="{url_for('main.generate_report', report_id=model.id)}">Создать отчёт</a>''')
+
+    column_formatters = {
+        'generate_report': _generate_report_button
+    }
 
 
 class OrderModelView(ModelView):
