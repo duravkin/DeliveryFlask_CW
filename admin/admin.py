@@ -1,13 +1,13 @@
 from flask_admin.contrib.sqla import ModelView
 # from wtforms import SelectField
-from models.models import *
+from models import *
 AViews = list()
 
 
 class RouteModelView(ModelView):
     form_columns = ['departure_point', 'destination_point',
                     'datetime', 'distance', 'cost', 'driver_id']
-    column_list = ['id','departure_point', 'destination_point',
+    column_list = ['id', 'departure_point', 'destination_point',
                    'datetime', 'distance', 'cost', 'driver.full_name']
     column_labels = {'id': 'Номер', 'departure_point': 'Откуда', 'destination_point': 'Куда',
                      'datetime': 'Время', 'distance': 'Расстояние', 'cost': 'Стоимость', 'driver.full_name': 'Водитель'}
@@ -50,31 +50,34 @@ class OrderModelView(ModelView):
 class SuborderModelView(ModelView):
     form_columns = ['order_id', 'product_id', 'quantity']
     column_list = ['order_id', 'product.product_name', 'quantity']
-    column_labels = {'order_id': 'Номер заказа', 'product.product_name': 'Продукт', 'quantity': 'Количество'}
+    column_labels = {'order_id': 'Номер заказа',
+                     'product.product_name': 'Продукт', 'quantity': 'Количество'}
     column_searchable_list = ['order_id']
 
 
 class ClientModelView(ModelView):
     form_columns = ['client_name', 'contact_info']
     column_list = ['client_name', 'contact_info']
-    column_labels = {'client_name': 'Клиент', 'contact_info': 'Контактная информация'}
+    column_labels = {'client_name': 'Клиент',
+                     'contact_info': 'Контактная информация'}
     column_searchable_list = ['client_name']
-    
-    
+
+
 class SupplierModelView(ModelView):
     form_columns = ['company_name', 'contact_info']
     column_list = ['company_name', 'contact_info']
-    column_labels = {'company_name': 'Поставщик', 'contact_info': 'Контактная информация'}
+    column_labels = {'company_name': 'Поставщик',
+                     'contact_info': 'Контактная информация'}
     column_searchable_list = ['company_name']
-    
-    
+
+
 class AccountantModelView(ModelView):
     form_columns = ['full_name']
     column_list = ['full_name']
     column_labels = {'full_name': 'ФИО'}
     column_searchable_list = ['full_name']
-    
-    
+
+
 class DriverModelView(ModelView):
     form_columns = ['full_name', 'license_number']
     column_list = ['full_name', 'license_number']

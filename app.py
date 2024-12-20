@@ -1,12 +1,12 @@
 from flask import Flask
 from flask_admin import Admin
-from models.models import db
-from routes.routes import main_routes
-from admin.admin import AViews as admin_views
+from models import db
+from routes import main_routes
+from admin import admin_views
 from flask_babel import Babel
 
 app = Flask(__name__)
-app.config.from_object('static.config.Config')
+app.config.from_object('config.config.Config')
 
 db.init_app(app)
 
